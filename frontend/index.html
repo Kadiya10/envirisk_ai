@@ -1,1023 +1,883 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>EnviRisk AI</title>
+    <title>EnviRisk AI — Analyse environnementale intelligente</title>
 
     <style>
-
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7f6;
-            color: #1f2937;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8f6;
+            color: #17251d;
+            line-height: 1.6;
         }
 
-        header {
-            background: #14532d;
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
+        /* =========================
+           NAVBAR
+        ========================= */
 
-        header h1 {
-            margin: 0;
-            font-size: 30px;
-        }
-
-        header p {
-            margin-top: 8px;
-            opacity: 0.9;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-        }
-
-        .card h2 {
-            margin-top: 0;
-            color: #14532d;
-        }
-
-        .upload-area {
+        nav {
+            height: 75px;
+            background: #ffffff;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid #e5ebe7;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        input[type="file"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        textarea {
-            min-height: 110px;
-            resize: vertical;
-        }
-
-        button {
-            border: none;
-            border-radius: 8px;
-            padding: 12px 18px;
-            cursor: pointer;
-            font-size: 15px;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 23px;
             font-weight: bold;
-            background: #166534;
+            color: #176b3a;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: #176b3a;
             color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #53615a;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #176b3a;
+        }
+
+        .btn-login {
+            border: 1px solid #176b3a;
+            color: #176b3a !important;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .btn-login:hover {
+            background: #176b3a;
+            color: white !important;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 590px;
+            display: flex;
+            align-items: center;
+            padding: 70px 7%;
+            background:
+                radial-gradient(circle at 85% 30%, #dcefe2 0%, transparent 30%),
+                linear-gradient(135deg, #f7faf8 0%, #edf6f0 100%);
+        }
+
+        .hero-content {
+            max-width: 720px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e0f2e7;
+            color: #176b3a;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5vw, 68px);
+            line-height: 1.08;
+            margin-bottom: 25px;
+            color: #14241b;
+        }
+
+        .hero h1 span {
+            color: #176b3a;
+        }
+
+        .hero p {
+            max-width: 650px;
+            font-size: 19px;
+            color: #59665f;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: #176b3a;
+            color: white;
+            padding: 14px 26px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #176b3a;
             transition: 0.2s;
         }
 
-        button:hover {
-            background: #14532d;
+        .btn-primary:hover {
+            background: #0f512b;
+            border-color: #0f512b;
+            transform: translateY(-2px);
         }
 
-        button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
+        .btn-secondary {
+            display: inline-block;
+            background: white;
+            color: #176b3a;
+            padding: 14px 26px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #c8d9ce;
+            transition: 0.2s;
         }
 
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(200px, 1fr)
-            );
-            gap: 12px;
-            margin-top: 15px;
+        .btn-secondary:hover {
+            border-color: #176b3a;
+            transform: translateY(-2px);
         }
 
-        .upload-status {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            display: none;
+        /* =========================
+           HERO VISUAL
+        ========================= */
+
+        .hero-visual {
+            margin-left: auto;
+            width: 410px;
+            height: 390px;
+            position: relative;
         }
 
-        .upload-status.success {
-            display: block;
-            background: #dcfce7;
-            color: #166534;
+        .dashboard-card {
+            position: absolute;
+            width: 330px;
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(30, 70, 45, 0.12);
+            border: 1px solid #e1ebe4;
         }
 
-        .upload-status.error {
-            display: block;
-            background: #fee2e2;
-            color: #991b1b;
+        .dashboard-card.main {
+            top: 30px;
+            left: 20px;
         }
 
-        .answer {
-            white-space: pre-wrap;
-            line-height: 1.6;
-            background: #f9fafb;
+        .dashboard-card.small {
+            width: 210px;
+            bottom: 10px;
+            right: 0;
             padding: 18px;
-            border-radius: 8px;
-            margin-top: 15px;
         }
 
-        .sources {
-            margin-top: 20px;
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 18px;
+            color: #26372d;
         }
 
-        .source {
-            background: #f0fdf4;
-            border-left: 4px solid #166534;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 5px;
+        .risk-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 0;
+            border-bottom: 1px solid #edf1ee;
+            font-size: 13px;
         }
 
-        .passages {
-            margin-top: 20px;
+        .risk-item:last-child {
+            border-bottom: none;
         }
 
-        .passage {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            padding: 15px;
+        .status {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status.green {
+            background: #e1f3e7;
+            color: #18703d;
+        }
+
+        .status.orange {
+            background: #fff0d7;
+            color: #9b6413;
+        }
+
+        .score {
+            font-size: 34px;
+            font-weight: bold;
+            color: #176b3a;
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: #758079;
+        }
+
+        /* =========================
+           FEATURES
+        ========================= */
+
+        .features {
+            padding: 85px 7%;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+
+        .section-header h2 {
+            font-size: 38px;
+            margin-bottom: 14px;
+            color: #17251d;
+        }
+
+        .section-header p {
+            color: #65716b;
+            font-size: 17px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border: 1px solid #e1e9e4;
+            border-radius: 15px;
+            background: #fbfdfc;
+            transition: 0.25s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(30, 70, 45, 0.08);
+            border-color: #bcd6c5;
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 13px;
+            background: #e4f2e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .feature-card p {
+            color: #66716b;
+            font-size: 15px;
+        }
+
+        /* =========================
+           DOCUMENT TYPES
+        ========================= */
+
+        .documents {
+            padding: 80px 7%;
+            background: #f4f8f5;
+        }
+
+        .document-grid {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .document-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid #e1e9e4;
+        }
+
+        .document-card h3 {
+            font-size: 24px;
             margin-bottom: 12px;
-            border-radius: 8px;
+            color: #176b3a;
         }
 
-        .passage-header {
-            font-weight: bold;
-            color: #14532d;
-            margin-bottom: 8px;
+        .document-card p {
+            color: #637069;
+            margin-bottom: 15px;
         }
 
-        .passage-text {
-            white-space: pre-wrap;
-            line-height: 1.5;
+        .document-card ul {
+            padding-left: 20px;
+            color: #526058;
         }
 
-        .hidden {
-            display: none;
+        .document-card li {
+            margin-bottom: 7px;
         }
 
-        .label {
-            font-weight: bold;
-            margin-bottom: 6px;
-            display: block;
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            padding: 85px 7%;
+            text-align: center;
+            background: #176b3a;
+            color: white;
         }
 
-        .document-info {
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-            color: #065f46;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
+        .cta h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
         }
 
+        .cta p {
+            max-width: 650px;
+            margin: 0 auto 30px;
+            color: #dcece2;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: #176b3a;
+            border-color: white;
+        }
+
+        .cta .btn-primary:hover {
+            background: #edf7f0;
+            border-color: #edf7f0;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #102018;
+            color: #b9c6be;
+            padding: 30px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content {
+                margin: auto;
+            }
+
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                margin: 50px auto 0;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .document-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            nav {
+                padding: 0 5%;
+            }
+
+            .nav-links a:not(.btn-login) {
+                display: none;
+            }
+
+            .hero {
+                padding: 55px 5%;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .hero-visual {
+                width: 100%;
+                height: 350px;
+            }
+
+            .dashboard-card.main {
+                left: 0;
+                width: 300px;
+            }
+
+            .dashboard-card.small {
+                right: 0;
+                width: 180px;
+            }
+
+            .section-header h2,
+            .cta h2 {
+                font-size: 30px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 
-
 <body>
 
-<header>
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
 
-    <h1>🌱 EnviRisk AI</h1>
+    <nav>
 
-    <p>
-        Système intelligent d'analyse environnementale
-        avec RAG et Qwen3
-    </p>
+        <div class="logo">
+            <div class="logo-icon">🌱</div>
+            <span>EnviRisk AI</span>
+        </div>
 
-</header>
+        <div class="nav-links">
 
+            <a href="#fonctionnalites">
+                Fonctionnalités
+            </a>
 
-<div class="container">
+            <a href="#documents">
+                Documents
+            </a>
 
-
-    <!-- ========================= -->
-    <!-- IMPORT DOCUMENT -->
-    <!-- ========================= -->
-
-    <div class="card">
-
-        <h2>📄 Importer un document</h2>
-
-        <div class="upload-area">
-
-            <label class="label">
-                Type de document
-            </label>
-
-            <select id="documentType">
-
-                <option value="">
-                    -- Sélectionner le type --
-                </option>
-
-                <option value="EIES">
-                    EIES
-                </option>
-
-                <option value="PGES">
-                    PGES
-                </option>
-
-                <option value="AUTRE">
-                    AUTRE
-                </option>
-
-            </select>
-
-
-            <label class="label">
-                Fichier PDF
-            </label>
-
-            <input
-                type="file"
-                id="fileInput"
-                accept=".pdf"
-            >
-
-
-            <button
-                id="uploadButton"
-                type="button"
-            >
-                📥 Importer le document
-            </button>
-
-
-            <div
-                id="uploadStatus"
-                class="upload-status"
-            ></div>
-
-
-            <div
-                id="documentInfo"
-                class="document-info hidden"
-            ></div>
+            <!-- MODIFICATION : vers la connexion -->
+            <a href="login.html" class="btn-login">
+                Se connecter
+            </a>
 
         </div>
 
-    </div>
+    </nav>
 
 
+    <!-- =========================
+         HERO
+    ========================= -->
 
-    <!-- ========================= -->
-    <!-- ANALYSE -->
-    <!-- ========================= -->
+    <section class="hero">
 
-    <div class="card">
+        <div class="hero-content">
 
-        <h2>🔍 Analyse environnementale</h2>
+            <div class="badge">
+                🌍 Intelligence artificielle pour l'environnement
+            </div>
 
+            <h1>
+                Analysez vos documents
+                <span>environnementaux</span>
+                intelligemment.
+            </h1>
 
-        <label class="label">
-            Votre question
-        </label>
+            <p>
+                EnviRisk AI vous aide à exploiter vos documents EIES et PGES,
+                identifier les risques et impacts environnementaux et évaluer
+                leur importance grâce à l'intelligence artificielle.
+            </p>
 
+            <div class="hero-buttons">
 
-        <textarea
-            id="question"
-            placeholder="Exemple : Quels sont les principaux impacts environnementaux du projet ?"
-        ></textarea>
+                <!-- MODIFICATION : vers la connexion -->
+                <a href="login.html" class="btn-primary">
+                    🚀 Accéder à l'application
+                </a>
 
+                <a href="#fonctionnalites" class="btn-secondary">
+                    Découvrir EnviRisk AI
+                </a>
 
-        <div class="buttons">
-
-            <button
-                type="button"
-                id="askButton"
-            >
-                💬 Poser une question
-            </button>
-
-
-            <button
-                type="button"
-                id="risksButton"
-            >
-                🔍 Identifier les risques
-            </button>
-
-
-            <button
-                type="button"
-                id="impactsButton"
-            >
-                🌱 Identifier les impacts
-            </button>
-
-
-            <button
-                type="button"
-                id="evaluationButton"
-            >
-                📊 Évaluer l'importance des impacts
-            </button>
+            </div>
 
         </div>
 
-    </div>
+
+        <!-- VISUALISATION -->
+
+        <div class="hero-visual">
+
+            <div class="dashboard-card main">
+
+                <div class="card-title">
+                    Analyse environnementale
+                </div>
+
+                <div class="risk-item">
+                    <span>Pollution de l'air</span>
+                    <span class="status orange">
+                        Moyen
+                    </span>
+                </div>
+
+                <div class="risk-item">
+                    <span>Dégradation des sols</span>
+                    <span class="status orange">
+                        Moyen
+                    </span>
+                </div>
+
+                <div class="risk-item">
+                    <span>Impact sur la végétation</span>
+                    <span class="status green">
+                        Faible
+                    </span>
+                </div>
+
+                <div class="risk-item">
+                    <span>Population riveraine</span>
+                    <span class="status green">
+                        Faible
+                    </span>
+                </div>
+
+            </div>
 
 
+            <div class="dashboard-card small">
 
-    <!-- ========================= -->
-    <!-- RESULTAT -->
-    <!-- ========================= -->
+                <div class="score">
+                    78%
+                </div>
 
-    <div
-        class="card"
-        id="resultCard"
-    >
+                <div class="score-label">
+                    Analyse des impacts
+                </div>
 
-        <h2>🤖 Résultat de l'analyse</h2>
+            </div>
+
+        </div>
+
+    </section>
 
 
-        <div
-            id="answer"
-            class="answer"
-        >
-            Les résultats apparaîtront ici.
+    <!-- =========================
+         FONCTIONNALITES
+    ========================= -->
+
+    <section class="features" id="fonctionnalites">
+
+        <div class="section-header">
+
+            <h2>
+                Une plateforme pensée pour l'analyse environnementale
+            </h2>
+
+            <p>
+                Exploitez vos documents et obtenez rapidement des informations
+                pertinentes grâce au RAG et à l'intelligence artificielle.
+            </p>
+
         </div>
 
 
-        <div
-            id="sources"
-            class="sources"
-        ></div>
+        <div class="feature-grid">
 
+            <div class="feature-card">
 
-        <div
-            id="passages"
-            class="passages"
-        ></div>
+                <div class="feature-icon">
+                    📄
+                </div>
 
-    </div>
+                <h3>
+                    Importation des documents
+                </h3>
 
+                <p>
+                    Importez vos documents environnementaux au format PDF
+                    et organisez-les selon leur type : EIES, PGES ou autre.
+                </p>
 
-</div>
+            </div>
 
 
+            <div class="feature-card">
 
-<script>
+                <div class="feature-icon">
+                    🔍
+                </div>
 
-    // ==========================================================
-    // CONFIGURATION
-    // ==========================================================
+                <h3>
+                    Identification des risques
+                </h3>
 
-    const API_URL =
-        "http://127.0.0.1:8000";
+                <p>
+                    Interrogez vos documents pour identifier les risques
+                    environnementaux mentionnés dans les études.
+                </p>
 
+            </div>
 
-    // ==========================================================
-    // ELEMENTS HTML
-    // ==========================================================
 
-    const fileInput =
-        document.getElementById("fileInput");
+            <div class="feature-card">
 
-    const documentType =
-        document.getElementById("documentType");
+                <div class="feature-icon">
+                    🌱
+                </div>
 
-    const uploadButton =
-        document.getElementById("uploadButton");
+                <h3>
+                    Analyse des impacts
+                </h3>
 
-    const uploadStatus =
-        document.getElementById("uploadStatus");
+                <p>
+                    Analysez les impacts environnementaux et sociaux
+                    à partir du contenu réel de vos documents.
+                </p>
 
-    const documentInfo =
-        document.getElementById("documentInfo");
+            </div>
 
-    const question =
-        document.getElementById("question");
 
-    const askButton =
-        document.getElementById("askButton");
+            <div class="feature-card">
 
-    const risksButton =
-        document.getElementById("risksButton");
+                <div class="feature-icon">
+                    
+                </div>
 
-    const impactsButton =
-        document.getElementById("impactsButton");
+                <h3>
+                    Évaluation
+                </h3>
 
-    const evaluationButton =
-        document.getElementById("evaluationButton");
+                <p>
+                    Obtenez une analyse structurée de l'importance
+                    des impacts identifiés.
+                </p>
 
-    const answer =
-        document.getElementById("answer");
+            </div>
 
-    const sources =
-        document.getElementById("sources");
 
-    const passages =
-        document.getElementById("passages");
+            <div class="feature-card">
 
+                <div class="feature-icon">
+                    
+                </div>
 
+                <h3>
+                    Intelligence artificielle
+                </h3>
 
-    // ==========================================================
-    // FONCTION UPLOAD
-    // ==========================================================
+                <p>
+                    EnviRisk AI utilise un système RAG associé à un modèle
+                    de langage pour analyser les informations pertinentes.
+                </p>
 
-    uploadButton.addEventListener(
-        "click",
-        async function () {
+            </div>
 
-            const file =
-                fileInput.files[0];
 
-            const type =
-                documentType.value;
+            <div class="feature-card">
 
+                <div class="feature-icon">
+                    💬
+                </div>
 
-            // Vérification fichier
+                <h3>
+                    Questions & réponses
+                </h3>
 
-            if (!file) {
+                <p>
+                    Posez vos questions en langage naturel et obtenez
+                    des réponses basées sur vos documents.
+                </p>
 
-                uploadStatus.className =
-                    "upload-status error";
+            </div>
 
-                uploadStatus.textContent =
-                    "❌ Veuillez sélectionner un fichier PDF.";
+        </div>
 
-                return;
-            }
+    </section>
 
 
-            // Vérification type
+    <!-- =========================
+         DOCUMENTS
+    ========================= -->
 
-            if (!type) {
+    <section class="documents" id="documents">
 
-                uploadStatus.className =
-                    "upload-status error";
+        <div class="section-header">
 
-                uploadStatus.textContent =
-                    "❌ Veuillez sélectionner le type du document.";
+            <h2>
+                Travaillez avec vos documents environnementaux
+            </h2>
 
-                return;
-            }
+            <p>
+                EnviRisk AI est conçu pour exploiter différents types
+                de documents utilisés dans les études environnementales.
+            </p>
 
+        </div>
 
-            // Vérification extension
 
-            if (
-                !file.name
-                    .toLowerCase()
-                    .endsWith(".pdf")
-            ) {
+        <div class="document-grid">
 
-                uploadStatus.className =
-                    "upload-status error";
+            <div class="document-card">
 
-                uploadStatus.textContent =
-                    "❌ Le fichier doit être au format PDF.";
+                <h3>
+                    📘 EIES
+                </h3>
 
-                return;
-            }
+                <p>
+                    Études d'Impact Environnemental et Social.
+                </p>
 
+                <ul>
+                    <li>Analyse du contexte du projet</li>
+                    <li>Identification des risques</li>
+                    <li>Identification des impacts</li>
+                    <li>Analyse des mesures environnementales</li>
+                </ul>
 
-            const formData =
-                new FormData();
+            </div>
 
 
-            formData.append(
-                "file",
-                file
-            );
+            <div class="document-card">
 
+                <h3>
+                    📗 PGES
+                </h3>
 
-            formData.append(
-                "document_type",
-                type
-            );
+                <p>
+                    Plans de Gestion Environnementale et Sociale.
+                </p>
 
+                <ul>
+                    <li>Mesures d'atténuation</li>
+                    <li>Suivi environnemental</li>
+                    <li>Gestion des impacts</li>
+                    <li>Mesures de surveillance</li>
+                </ul>
 
-            uploadButton.disabled =
-                true;
+            </div>
 
+        </div>
 
-            uploadStatus.className =
-                "upload-status";
+    </section>
 
 
-            uploadStatus.textContent =
-                "⏳ Importation et indexation du document...";
+    <!-- =========================
+         CTA
+    ========================= -->
 
+    <section class="cta">
 
-            try {
+        <h2>
+            Commencez votre analyse environnementale
+        </h2>
 
-                // =========================
-                // APPEL API UPLOAD
-                // =========================
+        <p>
+            Accédez à EnviRisk AI et exploitez vos documents
+            environnementaux avec une approche basée sur l'intelligence
+            artificielle.
+        </p>
 
-                const response =
-                    await fetch(
-                        `${API_URL}/upload`,
-                        {
-                            method: "POST",
-                            body: formData
-                        }
-                    );
+        <!-- MODIFICATION : vers la connexion -->
+        <a href="login.html" class="btn-primary">
+            Accéder à EnviRisk AI
+        </a>
 
+    </section>
 
-                const data =
-                    await response.json();
 
+    <!-- =========================
+         FOOTER
+    ========================= -->
 
-                console.log(
-                    "Réponse upload :",
-                    data
-                );
+    <footer>
 
+        <div>
+            © 2026 <strong>EnviRisk AI</strong>
+        </div>
 
-                if (!response.ok) {
+        <div>
+            Analyse environnementale intelligente des rapport Eies et Pges 
+        </div>
 
-                    throw new Error(
-                        data.detail ||
-                        data.message ||
-                        "Erreur pendant l'importation."
-                    );
-
-                }
-
-
-                // =========================
-                // MESSAGE SUCCES
-                // =========================
-
-                uploadStatus.className =
-                    "upload-status success";
-
-
-                uploadStatus.textContent =
-                    `✅ ${data.message} ` +
-                    `Type : ${data.document_type} | ` +
-                    `${data.pages || 0} pages, ` +
-                    `${data.chunks || 0} passages indexés`;
-
-
-                // =========================
-                // INFORMATIONS DOCUMENT
-                // =========================
-
-                documentInfo.classList.remove(
-                    "hidden"
-                );
-
-
-                documentInfo.textContent =
-                    `📘 Document actuel : ` +
-                    `${data.filename} | ` +
-                    `Type : ${data.document_type}`;
-
-
-                // On conserve le type sélectionné
-                // pour les prochaines analyses
-
-            }
-
-            catch (err) {
-
-                console.error(
-                    "Erreur upload :",
-                    err
-                );
-
-
-                uploadStatus.className =
-                    "upload-status error";
-
-
-                uploadStatus.textContent =
-                    "❌ Erreur : " +
-                    err.message;
-
-            }
-
-            finally {
-
-                uploadButton.disabled =
-                    false;
-
-            }
-
-        }
-    );
-
-
-
-    // ==========================================================
-    // FONCTION ANALYSE
-    // ==========================================================
-
-    async function analyze(
-        mode
-    ) {
-
-        const questionText =
-            question.value.trim();
-
-
-        // Si aucune question
-
-        if (!questionText) {
-
-            answer.textContent =
-                "⚠️ Veuillez saisir une question.";
-
-            return;
-        }
-
-
-        // Nettoyage précédent
-
-        answer.textContent =
-            "⏳ Analyse en cours avec Qwen3...";
-
-
-        sources.innerHTML =
-            "";
-
-        passages.innerHTML =
-            "";
-
-
-        // Désactiver les boutons
-
-        askButton.disabled =
-            true;
-
-        risksButton.disabled =
-            true;
-
-        impactsButton.disabled =
-            true;
-
-        evaluationButton.disabled =
-            true;
-
-
-        try {
-
-            // =========================
-            // APPEL API ASK
-            // =========================
-
-            const response =
-                await fetch(
-                    `${API_URL}/ask`,
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            question:
-                                questionText,
-
-                            top_k:
-                                5,
-
-                            mode:
-                                mode
-
-                        })
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            console.log(
-                "Réponse analyse :",
-                data
-            );
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.detail ||
-                    data.message ||
-                    "Erreur pendant l'analyse."
-                );
-
-            }
-
-
-            // =========================
-            // REPONSE QWEN
-            // =========================
-
-            answer.textContent =
-                data.answer ||
-                "Aucune réponse générée.";
-
-
-            // =========================
-            // TYPE(S) DE DOCUMENT
-            // =========================
-
-            if (
-                data.document_types &&
-                data.document_types.length > 0
-            ) {
-
-                const typeInfo =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                typeInfo.className =
-                    "document-info";
-
-
-                typeInfo.textContent =
-                    "📘 Type(s) de document analysé(s) : " +
-                    data.document_types.join(
-                        ", "
-                    );
-
-
-                answer.parentNode.insertBefore(
-                    typeInfo,
-                    answer
-                );
-
-            }
-
-
-            // =========================
-            // SOURCES
-            // =========================
-
-            if (
-                data.sources &&
-                data.sources.length > 0
-            ) {
-
-                const title =
-                    document.createElement(
-                        "h3"
-                    );
-
-                title.textContent =
-                    "📚 Sources utilisées";
-
-
-                sources.appendChild(
-                    title
-                );
-
-
-                data.sources.forEach(
-                    (source, index) => {
-
-                        const sourceElement =
-                            document.createElement(
-                                "div"
-                            );
-
-
-                        sourceElement.className =
-                            "source";
-
-
-                        const documentType =
-                            source.document_type ||
-                            "AUTRE";
-
-
-                        sourceElement.textContent =
-                            `${index + 1}. ` +
-                            `Document : ${source.document} | ` +
-                            `Type : ${documentType} | ` +
-                            `Page : ${source.page} | ` +
-                            `Pertinence : ${source.similarity_percent} %`;
-
-
-                        sources.appendChild(
-                            sourceElement
-                        );
-
-                    }
-                );
-
-            }
-
-
-
-            // =========================
-            // PASSAGES
-            // =========================
-
-            if (
-                data.passages &&
-                data.passages.length > 0
-            ) {
-
-                const title =
-                    document.createElement(
-                        "h3"
-                    );
-
-                title.textContent =
-                    "📄 Passages récupérés";
-
-
-                passages.appendChild(
-                    title
-                );
-
-
-                data.passages.forEach(
-                    (passage, index) => {
-
-                        const passageElement =
-                            document.createElement(
-                                "div"
-                            );
-
-
-                        passageElement.className =
-                            "passage";
-
-
-                        const header =
-                            document.createElement(
-                                "div"
-                            );
-
-
-                        header.className =
-                            "passage-header";
-
-
-                        header.textContent =
-                            `${index + 1}. ` +
-                            `${passage.document} | ` +
-                            `Type : ${
-                                passage.document_type ||
-                                "AUTRE"
-                            } | ` +
-                            `Page : ${passage.page} | ` +
-                            `Pertinence : ${passage.similarity_percent} %`;
-
-
-                        const text =
-                            document.createElement(
-                                "div"
-                            );
-
-
-                        text.className =
-                            "passage-text";
-
-
-                        text.textContent =
-                            passage.text;
-
-
-                        passageElement.appendChild(
-                            header
-                        );
-
-
-                        passageElement.appendChild(
-                            text
-                        );
-
-
-                        passages.appendChild(
-                            passageElement
-                        );
-
-                    }
-                );
-
-            }
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Erreur analyse :",
-                err
-            );
-
-
-            answer.textContent =
-                "❌ Impossible de contacter l'API : " +
-                err.message;
-
-        }
-
-        finally {
-
-            askButton.disabled =
-                false;
-
-            risksButton.disabled =
-                false;
-
-            impactsButton.disabled =
-                false;
-
-            evaluationButton.disabled =
-                false;
-
-        }
-
-    }
-
-
-
-    // ==========================================================
-    // BOUTONS
-    // ==========================================================
-
-    askButton.addEventListener(
-        "click",
-        function () {
-
-            analyze(
-                "question"
-            );
-
-        }
-    );
-
-
-    risksButton.addEventListener(
-        "click",
-        function () {
-
-            analyze(
-                "risks"
-            );
-
-        }
-    );
-
-
-    impactsButton.addEventListener(
-        "click",
-        function () {
-
-            analyze(
-                "impacts"
-            );
-
-        }
-    );
-
-
-    evaluationButton.addEventListener(
-        "click",
-        function () {
-
-            analyze(
-                "evaluation"
-            );
-
-        }
-    );
-
-
-</script>
-
+    </footer>
 
 </body>
-
 </html>
+```

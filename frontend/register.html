@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Créer un compte — EnviRisk AI</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0f5132, #198754);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 460px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 18px;
+        padding: 40px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+        text-align: center;
+        font-size: 42px;
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #12372a;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #6c757d;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    input {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #ced4da;
+        border-radius: 9px;
+        font-size: 15px;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #198754;
+        box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.12);
+    }
+
+    .password-container {
+        position: relative;
+    }
+
+    .password-container input {
+        padding-right: 50px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .terms {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        margin: 20px 0;
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .terms input {
+        width: auto;
+        margin-top: 2px;
+    }
+
+    .btn {
+        width: 100%;
+        border: none;
+        border-radius: 9px;
+        padding: 14px;
+        background: #198754;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background: #157347;
+    }
+
+    .btn:disabled {
+        background: #8ab9a1;
+        cursor: not-allowed;
+    }
+
+    .message {
+        display: none;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 18px;
+        font-size: 14px;
+    }
+
+    .message.success {
+        display: block;
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .message.error {
+        display: block;
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 22px;
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .login-link a {
+        color: #198754;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .back {
+        text-align: center;
+        margin-top: 18px;
+    }
+
+    .back a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container">
+
+```
+<div class="card">
+
+    <div class="logo">🌱</div>
+
+    <h1>Créer un compte</h1>
+
+    <p class="subtitle">
+        Rejoignez EnviRisk AI
+    </p>
+
+    <div id="message" class="message"></div>
+
+    <form id="registerForm">
+
+        <div class="form-group">
+            <label for="name">
+                Nom complet
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Votre nom complet"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="email">
+                Adresse e-mail
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="exemple@email.com"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password">
+                Mot de passe
+            </label>
+
+            <div class="password-container">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Minimum 8 caractères"
+                    minlength="8"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    onclick="togglePassword('password', this)"
+                >
+                    👁️
+                </button>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">
+                Confirmer le mot de passe
+            </label>
+
+            <div class="password-container">
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Répétez votre mot de passe"
+                    minlength="8"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    onclick="togglePassword('confirmPassword', this)"
+                >
+                    👁️
+                </button>
+
+            </div>
+        </div>
+
+        <div class="terms">
+
+            <input
+                type="checkbox"
+                id="terms"
+                required
+            >
+
+            <label for="terms">
+                J'accepte les conditions d'utilisation
+                d'EnviRisk AI.
+            </label>
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn"
+            id="registerButton"
+        >
+            Créer mon compte
+        </button>
+
+    </form>
+
+    <div class="login-link">
+        Vous avez déjà un compte ?
+        <a href="/login.html">
+            Se connecter
+        </a>
+    </div>
+
+</div>
+
+<div class="back">
+    <a href="/">
+        ← Retour à l'accueil
+    </a>
+</div>
+```
+
+</div>
+
+<script>
+
+function togglePassword(
+    fieldId,
+    button
+) {
+
+    const field =
+        document.getElementById(fieldId);
+
+    if (field.type === "password") {
+
+        field.type = "text";
+
+        button.textContent = "🙈";
+
+    } else {
+
+        field.type = "password";
+
+        button.textContent = "👁️";
+    }
+}
+
+
+function showMessage(
+    message,
+    type
+) {
+
+    const messageBox =
+        document.getElementById("message");
+
+    messageBox.textContent = message;
+
+    messageBox.className =
+        "message " + type;
+}
+
+
+document
+    .getElementById("registerForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
+
+            const terms =
+                document
+                    .getElementById("terms")
+                    .checked;
+
+            const button =
+                document
+                    .getElementById("registerButton");
+
+
+            if (!name) {
+
+                showMessage(
+                    "Veuillez saisir votre nom.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (password.length < 8) {
+
+                showMessage(
+                    "Le mot de passe doit contenir au moins 8 caractères.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (password !== confirmPassword) {
+
+                showMessage(
+                    "Les mots de passe ne correspondent pas.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!terms) {
+
+                showMessage(
+                    "Veuillez accepter les conditions d'utilisation.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Création du compte...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/register",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                name: name,
+                                email: email,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.detail ||
+                        "Une erreur est survenue."
+                    );
+                }
+
+
+                showMessage(
+                    "Compte créé avec succès ! Redirection vers la connexion...",
+                    "success"
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "/login.html";
+
+                    },
+                    1500
+                );
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Créer mon compte";
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

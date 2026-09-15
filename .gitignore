@@ -1,14 +1,32 @@
+# Environnement virtuel
 .venv/
+venv/
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
 
-.env
+# Base de données locale
+data/envirisk.db
 
+# Données locales RAG
 data/chroma/
 data/documents/
+data/uploads/
 
+# Fichiers temporaires
+*.tmp
+*.log
+
+# Variables d'environnement
+.env
+.env.*
+
+# IDE
 .vscode/
 .idea/
 
-*.logdata/uploads/
-data/uploads/
+# Système
+.DS_Store
+Thumbs.db

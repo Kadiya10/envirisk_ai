@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>EnviRisk AI — Tableau de bord</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f6;
+            color: #1f2937;
+        }
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        header {
+            background: #14532d;
+            color: white;
+            padding: 18px 25px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            font-size: 34px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .brand p {
+            margin: 4px 0 0;
+            opacity: 0.85;
+            font-size: 14px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        .logout-button {
+            background: white;
+            color: #14532d;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 9px 14px;
+
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout-button:hover {
+            background: #dcfce7;
+        }
+
+        /* ================================
+           CONTENEUR
+        ================================= */
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* ================================
+           BIENVENUE
+        ================================= */
+
+        .welcome {
+            background: white;
+            border-radius: 14px;
+
+            padding: 25px;
+            margin-bottom: 25px;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .welcome h2 {
+            margin: 0 0 8px;
+            color: #14532d;
+        }
+
+        .welcome p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        /* ================================
+           CARTES STATISTIQUES
+        ================================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(210px, 1fr)
+                );
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.07);
+        }
+
+        .stat-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-title {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            font-size: 25px;
+            font-weight: bold;
+
+            color: #14532d;
+
+            margin-top: 5px;
+        }
+
+        /* ================================
+           CARD
+        ================================= */
+
+        .card {
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.07);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #14532d;
+        }
+
+        .card-description {
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        /* ================================
+           UPLOAD
+        ================================= */
+
+        .upload-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="file"],
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            background: white;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 12px 18px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            background: #166534;
+
+            color: white;
+
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #14532d;
+        }
+
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* ================================
+           STATUS
+        ================================= */
+
+        .upload-status {
+
+            margin-top: 5px;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            display: none;
+        }
+
+        .upload-status.success {
+
+            display: block;
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .upload-status.error {
+
+            display: block;
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+        .document-info {
+
+            background: #ecfdf5;
+
+            border: 1px solid #a7f3d0;
+
+            color: #065f46;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-top: 5px;
+        }
+
+        /* ================================
+           ANALYSE
+        ================================= */
+
+        .analysis-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(210px, 1fr)
+                );
+
+            gap: 12px;
+
+            margin-top: 15px;
+        }
+
+        .analysis-button {
+
+            min-height: 65px;
+        }
+
+        /* ================================
+           RESULTAT
+        ================================= */
+
+        .answer {
+
+            white-space: pre-wrap;
+
+            line-height: 1.7;
+
+            background: #f9fafb;
+
+            padding: 18px;
+
+            border-radius: 8px;
+
+            margin-top: 15px;
+        }
+
+        .sources {
+            margin-top: 25px;
+        }
+
+        .source {
+
+            background: #f0fdf4;
+
+            border-left: 4px solid #166534;
+
+            padding: 12px;
+
+            margin-bottom: 8px;
+
+            border-radius: 5px;
+        }
+
+        .passages {
+            margin-top: 25px;
+        }
+
+        .passage {
+
+            background: #f9fafb;
+
+            border: 1px solid #e5e7eb;
+
+            padding: 15px;
+
+            margin-bottom: 12px;
+
+            border-radius: 8px;
+        }
+
+        .passage-header {
+
+            font-weight: bold;
+
+            color: #14532d;
+
+            margin-bottom: 8px;
+        }
+
+        .passage-text {
+
+            white-space: pre-wrap;
+
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 700px) {
+
+            .header-content {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .user-area {
+
+                width: 100%;
+
+                justify-content:
+                    space-between;
+            }
+
+            .brand h1 {
+                font-size: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     AUTHENTIFICATION
+========================================================= -->
+
+<script>
+
+    const user =
+        JSON.parse(
+            localStorage.getItem(
+                "envirisk_user"
+            )
+        );
+
+    if (!user) {
+
+        window.location.href =
+            "/login.html";
+
+    }
+
+</script>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+    <div class="header-content">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🌱
+            </div>
+
+            <div>
+
+                <h1>
+                    EnviRisk AI
+                </h1>
+
+                <p>
+                    Analyse environnementale intelligente
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="user-area">
+
+            <div
+                id="userInfo"
+                class="user-name"
+            >
+                👤 Utilisateur
+            </div>
+
+            <button
+                type="button"
+                class="logout-button"
+                onclick="logout()"
+            >
+                🚪 Déconnexion
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     CONTENU PRINCIPAL
+========================================================= -->
+
+<div class="container">
+
+
+    <!-- =====================================================
+         BIENVENUE
+    ====================================================== -->
+
+    <div class="welcome">
+
+        <h2 id="welcomeTitle">
+            Bienvenue sur EnviRisk AI 👋
+        </h2>
+
+        <p>
+            Votre espace intelligent pour analyser
+            les documents environnementaux EIES et PGES.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTIQUES
+    ====================================================== -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📄
+            </div>
+
+            <div class="stat-title">
+                Documents
+            </div>
+
+            <div
+                class="stat-value"
+                id="documentCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🔍
+            </div>
+
+            <div class="stat-title">
+                Analyses disponibles
+            </div>
+
+            <div class="stat-value">
+                4
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🤖
+            </div>
+
+            <div class="stat-title">
+                Modèle IA
+            </div>
+
+            <div class="stat-value">
+                Qwen3
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🧠
+            </div>
+
+            <div class="stat-title">
+                Technologie
+            </div>
+
+            <div class="stat-value">
+                RAG
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         IMPORT DOCUMENT
+    ====================================================== -->
+
+    <div class="card">
+
+        <h2>
+            📄 Importer un document
+        </h2>
+
+        <p class="card-description">
+            Importez un document PDF EIES ou PGES
+            pour permettre à EnviRisk AI de l'analyser.
+        </p>
+
+
+        <div class="upload-area">
+
+            <label class="label">
+                Type de document
+            </label>
+
+            <select id="documentType">
+
+                <option value="">
+                    -- Sélectionner le type --
+                </option>
+
+                <option value="EIES">
+                    EIES
+                </option>
+
+                <option value="PGES">
+                    PGES
+                </option>
+
+                <option value="AUTRE">
+                    AUTRE
+                </option>
+
+            </select>
+
+
+            <label class="label">
+                Fichier PDF
+            </label>
+
+            <input
+                type="file"
+                id="fileInput"
+                accept=".pdf"
+            >
+
+
+            <button
+                id="uploadButton"
+                type="button"
+            >
+                📥 Importer le document
+            </button>
+
+
+            <div
+                id="uploadStatus"
+                class="upload-status"
+            ></div>
+
+
+            <div
+                id="documentInfo"
+                class="document-info hidden"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ANALYSE
+    ====================================================== -->
+
+    <div class="card">
+
+        <h2>
+            🔍 Analyse environnementale
+        </h2>
+
+        <p class="card-description">
+            Posez une question ou utilisez l'une des
+            analyses spécialisées disponibles.
+        </p>
+
+
+        <label class="label">
+            Votre question
+        </label>
+
+
+        <textarea
+            id="question"
+            placeholder="Exemple : Quels sont les principaux impacts environnementaux du projet ?"
+        ></textarea>
+
+
+        <div class="analysis-grid">
+
+            <button
+                type="button"
+                class="analysis-button"
+                id="askButton"
+            >
+                💬 Poser une question
+            </button>
+
+
+            <button
+                type="button"
+                class="analysis-button"
+                id="risksButton"
+            >
+                🔍 Identifier les risques
+            </button>
+
+
+            <button
+                type="button"
+                class="analysis-button"
+                id="impactsButton"
+            >
+                🌱 Identifier les impacts
+            </button>
+
+
+            <button
+                type="button"
+                class="analysis-button"
+                id="evaluationButton"
+            >
+                📊 Évaluer l'importance des impacts
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RESULTAT
+    ====================================================== -->
+
+    <div
+        class="card"
+        id="resultCard"
+    >
+
+        <h2>
+            🤖 Résultat de l'analyse
+        </h2>
+
+
+        <div
+            id="answer"
+            class="answer"
+        >
+            Les résultats apparaîtront ici.
+        </div>
+
+
+        <div
+            id="sources"
+            class="sources"
+        ></div>
+
+
+        <div
+            id="passages"
+            class="passages"
+        ></div>
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    🌱 EnviRisk AI
+
+    <br>
+
+    Système intelligent d'analyse environnementale
+    avec RAG et Qwen3
+
+</footer>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+    // =========================================================
+    // UTILISATEUR
+    // =========================================================
+
+    const currentUser =
+        JSON.parse(
+            localStorage.getItem(
+                "envirisk_user"
+            )
+        );
+
+
+    if (!currentUser) {
+
+        window.location.href =
+            "/login.html";
+
+    }
+
+
+    // =========================================================
+    // AFFICHAGE UTILISATEUR
+    // =========================================================
+
+    if (currentUser) {
+
+        document.getElementById(
+            "userInfo"
+        ).textContent =
+            "👤 Bonjour, " +
+            currentUser.name;
+
+
+        document.getElementById(
+            "welcomeTitle"
+        ).textContent =
+            "Bienvenue " +
+            currentUser.name +
+            " 👋";
+
+    }
+
+
+    // =========================================================
+    // DECONNEXION
+    // =========================================================
+
+    function logout() {
+
+        localStorage.removeItem(
+            "envirisk_user"
+        );
+
+        window.location.href =
+            "/login.html";
+
+    }
+
+
+    // =========================================================
+    // CONFIGURATION API
+    // =========================================================
+
+    const API_URL =
+        "http://127.0.0.1:8000";
+
+
+    // =========================================================
+    // ELEMENTS
+    // =========================================================
+
+    const fileInput =
+        document.getElementById(
+            "fileInput"
+        );
+
+    const documentType =
+        document.getElementById(
+            "documentType"
+        );
+
+    const uploadButton =
+        document.getElementById(
+            "uploadButton"
+        );
+
+    const uploadStatus =
+        document.getElementById(
+            "uploadStatus"
+        );
+
+    const documentInfo =
+        document.getElementById(
+            "documentInfo"
+        );
+
+    const question =
+        document.getElementById(
+            "question"
+        );
+
+    const askButton =
+        document.getElementById(
+            "askButton"
+        );
+
+    const risksButton =
+        document.getElementById(
+            "risksButton"
+        );
+
+    const impactsButton =
+        document.getElementById(
+            "impactsButton"
+        );
+
+    const evaluationButton =
+        document.getElementById(
+            "evaluationButton"
+        );
+
+    const answer =
+        document.getElementById(
+            "answer"
+        );
+
+    const sources =
+        document.getElementById(
+            "sources"
+        );
+
+    const passages =
+        document.getElementById(
+            "passages"
+        );
+
+
+    // =========================================================
+    // IMPORT DOCUMENT
+    // =========================================================
+
+    uploadButton.addEventListener(
+        "click",
+        async function () {
+
+            const file =
+                fileInput.files[0];
+
+            const type =
+                documentType.value;
+
+
+            if (!file) {
+
+                uploadStatus.className =
+                    "upload-status error";
+
+                uploadStatus.textContent =
+                    "❌ Veuillez sélectionner un fichier PDF.";
+
+                return;
+
+            }
+
+
+            if (!type) {
+
+                uploadStatus.className =
+                    "upload-status error";
+
+                uploadStatus.textContent =
+                    "❌ Veuillez sélectionner le type du document.";
+
+                return;
+
+            }
+
+
+            if (
+                !file.name
+                    .toLowerCase()
+                    .endsWith(".pdf")
+            ) {
+
+                uploadStatus.className =
+                    "upload-status error";
+
+                uploadStatus.textContent =
+                    "❌ Le fichier doit être au format PDF.";
+
+                return;
+
+            }
+
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            formData.append(
+                "document_type",
+                type
+            );
+
+
+            uploadButton.disabled =
+                true;
+
+
+            uploadStatus.className =
+                "upload-status";
+
+
+            uploadStatus.textContent =
+                "⏳ Importation et indexation du document...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/upload`,
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Réponse upload :",
+                    data
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.detail ||
+                        data.message ||
+                        "Erreur pendant l'importation."
+                    );
+
+                }
+
+
+                uploadStatus.className =
+                    "upload-status success";
+
+
+                uploadStatus.textContent =
+                    `✅ ${data.message} ` +
+                    `Type : ${data.document_type} | ` +
+                    `${data.pages || 0} pages, ` +
+                    `${data.chunks || 0} passages indexés`;
+
+
+                documentInfo.classList.remove(
+                    "hidden"
+                );
+
+
+                documentInfo.textContent =
+                    `📘 Document actuel : ` +
+                    `${data.filename} | ` +
+                    `Type : ${data.document_type}`;
+
+
+                // Mise à jour du compteur
+                const countElement =
+                    document.getElementById(
+                        "documentCount"
+                    );
+
+                const currentCount =
+                    parseInt(
+                        countElement.textContent
+                    ) || 0;
+
+                countElement.textContent =
+                    currentCount + 1;
+
+            }
+
+
+            catch (err) {
+
+                console.error(
+                    "Erreur upload :",
+                    err
+                );
+
+
+                uploadStatus.className =
+                    "upload-status error";
+
+
+                uploadStatus.textContent =
+                    "❌ Erreur : " +
+                    err.message;
+
+            }
+
+
+            finally {
+
+                uploadButton.disabled =
+                    false;
+
+            }
+
+        }
+    );
+
+
+    // =========================================================
+    // ANALYSE
+    // =========================================================
+
+    async function analyze(
+        mode
+    ) {
+
+        const questionText =
+            question.value.trim();
+
+
+        if (!questionText) {
+
+            answer.textContent =
+                "⚠️ Veuillez saisir une question.";
+
+            return;
+
+        }
+
+
+        answer.textContent =
+            "⏳ Analyse en cours avec Qwen3...";
+
+
+        sources.innerHTML =
+            "";
+
+        passages.innerHTML =
+            "";
+
+
+        askButton.disabled =
+            true;
+
+        risksButton.disabled =
+            true;
+
+        impactsButton.disabled =
+            true;
+
+        evaluationButton.disabled =
+            true;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/ask`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            question:
+                                questionText,
+
+                            top_k:
+                                5,
+
+                            mode:
+                                mode
+
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Réponse analyse :",
+                data
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.detail ||
+                    data.message ||
+                    "Erreur pendant l'analyse."
+                );
+
+            }
+
+
+            answer.textContent =
+                data.answer ||
+                "Aucune réponse générée.";
+
+
+            // =================================================
+            // TYPE DE DOCUMENT
+            // =================================================
+
+            if (
+                data.document_types &&
+                data.document_types.length > 0
+            ) {
+
+                const typeInfo =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                typeInfo.className =
+                    "document-info";
+
+
+                typeInfo.textContent =
+                    "📘 Type(s) de document analysé(s) : " +
+                    data.document_types.join(
+                        ", "
+                    );
+
+
+                answer.parentNode.insertBefore(
+                    typeInfo,
+                    answer
+                );
+
+            }
+
+
+            // =================================================
+            // SOURCES
+            // =================================================
+
+            if (
+                data.sources &&
+                data.sources.length > 0
+            ) {
+
+                const title =
+                    document.createElement(
+                        "h3"
+                    );
+
+
+                title.textContent =
+                    "📚 Sources utilisées";
+
+
+                sources.appendChild(
+                    title
+                );
+
+
+                data.sources.forEach(
+                    (source, index) => {
+
+                        const sourceElement =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        sourceElement.className =
+                            "source";
+
+
+                        sourceElement.textContent =
+                            `${index + 1}. ` +
+                            `Document : ${source.document} | ` +
+                            `Type : ${
+                                source.document_type ||
+                                "AUTRE"
+                            } | ` +
+                            `Page : ${source.page} | ` +
+                            `Pertinence : ${source.similarity_percent} %`;
+
+
+                        sources.appendChild(
+                            sourceElement
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // PASSAGES
+            // =================================================
+
+            if (
+                data.passages &&
+                data.passages.length > 0
+            ) {
+
+                const title =
+                    document.createElement(
+                        "h3"
+                    );
+
+
+                title.textContent =
+                    "📄 Passages récupérés";
+
+
+                passages.appendChild(
+                    title
+                );
+
+
+                data.passages.forEach(
+                    (passage, index) => {
+
+                        const passageElement =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        passageElement.className =
+                            "passage";
+
+
+                        const header =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        header.className =
+                            "passage-header";
+
+
+                        header.textContent =
+                            `${index + 1}. ` +
+                            `${passage.document} | ` +
+                            `Type : ${
+                                passage.document_type ||
+                                "AUTRE"
+                            } | ` +
+                            `Page : ${passage.page} | ` +
+                            `Pertinence : ${passage.similarity_percent} %`;
+
+
+                        const text =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        text.className =
+                            "passage-text";
+
+
+                        text.textContent =
+                            passage.text;
+
+
+                        passageElement.appendChild(
+                            header
+                        );
+
+
+                        passageElement.appendChild(
+                            text
+                        );
+
+
+                        passages.appendChild(
+                            passageElement
+                        );
+
+                    }
+                );
+
+            }
+
+        }
+
+
+        catch (err) {
+
+            console.error(
+                "Erreur analyse :",
+                err
+            );
+
+
+            answer.textContent =
+                "❌ Impossible de contacter l'API : " +
+                err.message;
+
+        }
+
+
+        finally {
+
+            askButton.disabled =
+                false;
+
+            risksButton.disabled =
+                false;
+
+            impactsButton.disabled =
+                false;
+
+            evaluationButton.disabled =
+                false;
+
+        }
+
+    }
+
+
+    // =========================================================
+    // BOUTONS
+    // =========================================================
+
+    askButton.addEventListener(
+        "click",
+        function () {
+
+            analyze(
+                "question"
+            );
+
+        }
+    );
+
+
+    risksButton.addEventListener(
+        "click",
+        function () {
+
+            analyze(
+                "risks"
+            );
+
+        }
+    );
+
+
+    impactsButton.addEventListener(
+        "click",
+        function () {
+
+            analyze(
+                "impacts"
+            );
+
+        }
+    );
+
+
+    evaluationButton.addEventListener(
+        "click",
+        function () {
+
+            analyze(
+                "evaluation"
+            );
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>
