@@ -10,4 +10,5 @@ data/documents/
 .vscode/
 .idea/
 
-*.log
+*.logdata/uploads/
+data/uploads/
